@@ -10,8 +10,8 @@ from src.demand_prediction.event_tcn import EventTCNModel
 from src.config import SEED
 
 
-def tcn_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, peaks_data, n_in,
-                      model='CNN', window_size=2, events_dates=None, device='cuda:2', tcn_df_cache=False, use_cache=False):
+def tcn_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, n_in,
+                      model='CNN', window_size=2, categ_data=None, device='cuda:2', tcn_df_cache=False, use_cache=False):
     train_set, test_set, test_ts = None, None, None
 
     if model == 'Event CNN':
@@ -22,7 +22,7 @@ def tcn_model_results(train, test, train_df, test_df, events_all, start_pred_tim
                                    use_cache=tcn_df_cache, set_name='test')
 
     if model == 'GAN - Event CNN':
-        train_set, test_set = get_gan_embeddings(train_df, test_df, peaks_data, window_size=window_size)
+        train_set, test_set = get_gan_embeddings(train_df, test_df, categ_data, window_size=window_size)
         train_set = train_set[['emb_' + str(ii) for ii in range(100)]]
 
     transformer = Scaler()
@@ -83,17 +83,20 @@ def tcn_model_results(train, test, train_df, test_df, events_all, start_pred_tim
     predictions = forecast.pd_dataframe().rename(columns={'0': model})
     predictions = transformer.inverse_transform(TimeSeries.from_dataframe(predictions, freq="D")).pd_dataframe()
     predictions = predictions.rename(columns={'0': model})
+
+    y_test_df = pd.DataFrame(test_df, index=test_df.index, columns=['Quantity']).rename(columns={'Quantity': 'Real Quantity'})
+    df_test_results = pd.concat([y_test_df, predictions], axis=1)
+    df_test_results.iplot(title=leaf_name + " - " + model, xTitle='Date', yTitle='Sales', theme='white')
+
     return predictions
 
 
-def get_tcn_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, peaks_data, n_in,
-                    window_size, events_dates, device='cuda:2', tcn_df_cache=False, use_cache=False):
-    tcn_results = pd.DataFrame()
+def get_tcn_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, n_in,
+                    window_size, categ_data, device='cuda:2', tcn_df_cache=False, use_cache=False):
     tcn_predictions = []
     for model in ['GAN - Event CNN']:       # Optional models: ['CNN', 'Event CNN', 'GAN - Event CNN']:
-        res_df, predictions = tcn_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, peaks_data,
-            n_in, model, window_size, events_dates, device=device, tcn_df_cache=tcn_df_cache, use_cache=use_cache)
-        tcn_results = tcn_results.append(res_df, ignore_index=True)
+        predictions = tcn_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name,
+            n_in, model, window_size, categ_data, device=device, tcn_df_cache=tcn_df_cache, use_cache=use_cache)
         tcn_predictions.append(predictions)
     tcn_predictions = pd.concat(tcn_predictions, axis=1)
-    return tcn_results, tcn_predictions
+    return tcn_predictions

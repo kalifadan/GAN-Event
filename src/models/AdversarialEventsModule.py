@@ -133,8 +133,8 @@ class AdversarialEventsModule(EventsModule):
             results_prefix = self.results_prefix
             df_train = self.get_embeddings_generator(self.trainer.datamodule.embedding_train_dataloader(), embedding_train_dates)
             df_test = self.get_embeddings_generator(self.trainer.datamodule.test_dataloader(), test_dates)
-            df_train.to_pickle("../gan_embeddings/" + results_prefix + "causal_mean_train_gan_embeddings.pkl")
-            df_test.to_pickle("../gan_embeddings/" + results_prefix + "causal_mean_test_gan_embeddings.pkl")
+            df_train.to_pickle("../gan_embeddings/" + results_prefix + "_train_gan_embeddings.pkl")
+            df_test.to_pickle("../gan_embeddings/" + results_prefix + "_test_gan_embeddings.pkl")
 
     def configure_optimizers(self):
         optimizer1 = torch.optim.AdamW(self.generator.parameters(), lr=self.lr_gen, weight_decay=self.wd_gen)

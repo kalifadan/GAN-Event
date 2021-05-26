@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import os.path as path
 import src.config as proj_config
 
@@ -31,6 +32,7 @@ def load_table_cache(name):
 
 def save_table_cache(df, name):
     path_str = cache_path + '/' + name
+    os.makedirs(os.path.dirname(path_str), exist_ok=True)
     df.to_pickle(path_str)
 
 

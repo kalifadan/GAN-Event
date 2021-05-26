@@ -9,9 +9,9 @@ def calc_events_ts(df, events, n=3, w=False):
     data = df.copy()
     data['date'] = data.index.astype('str')
     if not w:
-        events = events.drop(columns=['peak', 'Category', 'embedding', 'wiki_name', 'High-Category', 'country', 'ref_num'])
+        events = events.drop(columns=['Category', 'embedding', 'wiki_name', 'High-Category', 'country', 'ref_num'])
     else:
-        events = events.drop(columns=['peak', 'Category', 'embedding', 'wiki_name', 'High-Category', 'country'])
+        events = events.drop(columns=['Category', 'embedding', 'wiki_name', 'High-Category', 'country'])
     res = df.copy()
     res_cols = []
 
@@ -60,4 +60,5 @@ def load_events_model(name):
 
 def save_events_model(model, name):
     filename = cache_path + '/events_models/' + name + '.pkl'
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     pickle.dump(model, open(filename, 'wb'))

@@ -4,7 +4,7 @@ from src.demand_prediction.events_models import save_events_model, load_events_m
 from src.config import SEED
 
 
-def NeuralProphetEvents(future_events, past_events, events_name, train, test, peaks_data, leaf_name, model_name,
+def NeuralProphetEvents(future_events, past_events, events_name, train, test, leaf_name, model_name,
                         start_pred_time, events_dates, use_cache=False):
     test_name = leaf_name
     test_df = test.pd_dataframe()
@@ -58,16 +58,14 @@ def get_events_for_neural_prophet(events_all, start_pred_time):
     return reformat_events_name(train_events), reformat_events_name(test_events)
 
 
-def get_neural_prophet_results(train, test, events_all, leaf_name, peaks_data, events_dates, start_pred_time,
+def get_neural_prophet_results(train, test, events_all, leaf_name, events_dates, start_pred_time,
                                use_cache=False):
-    neural_res = pd.DataFrame()
     modes_name = {1: 'Event NeuralProphet'}
     cur_mode = 1
     past_opt_events, future_opt_events = get_events_for_neural_prophet(events_all, start_pred_time)
     print("Total future optimal events:", len(future_opt_events))
     print("Total past optimal events:", len(past_opt_events))
     events_name = list(set(list(future_opt_events.event.values) + list(past_opt_events.event.values)))
-    res_df, predictions = NeuralProphetEvents(future_opt_events, past_opt_events, events_name, train, test, peaks_data,
+    predictions = NeuralProphetEvents(future_opt_events, past_opt_events, events_name, train, test,
                                               leaf_name, modes_name[cur_mode], start_pred_time, events_dates, use_cache)
-    neural_res = neural_res.append(res_df, ignore_index=True)
-    return neural_res, predictions
+    return predictions

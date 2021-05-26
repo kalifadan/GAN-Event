@@ -10,8 +10,8 @@ from src.demand_prediction.event_lstm import EventRNNModel
 from src.config import SEED
 
 
-def lstm_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, peaks_data, n_in,
-                       model='LSTM', window_size=2, events_dates=None, device='cuda:2', lstm_df_cache=False, use_cache=False):
+def lstm_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, n_in,
+                       model='LSTM', window_size=2, categ_data=None, device='cuda:2', lstm_df_cache=False, use_cache=False):
     train_set, test_set, test_ts = None, None, None
 
     if model == 'Event LSTM':
@@ -29,7 +29,7 @@ def lstm_model_results(train, test, train_df, test_df, events_all, start_pred_ti
                                    use_cache=False, set_name='test', w=lstm_df_cache)
 
     if model == 'GAN - Event LSTM':
-        train_set, test_set = get_gan_embeddings(train_df, test_df, peaks_data, window_size=window_size)
+        train_set, test_set = get_gan_embeddings(train_df, test_df, categ_data, window_size=window_size)
         train_set = train_set[['emb_' + str(ii) for ii in range(100)]]
 
     transformer = Scaler()
@@ -96,17 +96,20 @@ def lstm_model_results(train, test, train_df, test_df, events_all, start_pred_ti
     predictions = forecast.pd_dataframe().rename(columns={'0': model})
     predictions = transformer.inverse_transform(TimeSeries.from_dataframe(predictions, freq="D")).pd_dataframe()
     predictions = predictions.rename(columns={'0': model})
+
+    y_test_df = pd.DataFrame(test_df, index=test_df.index, columns=['Quantity']).rename(columns={'Quantity': 'Real Quantity'})
+    df_test_results = pd.concat([y_test_df, predictions], axis=1)
+    df_test_results.iplot(title=leaf_name + " - " + model, xTitle='Date', yTitle='Sales', theme='white')
+
     return predictions
 
 
-def get_lstm_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, peaks_data, n_in,
-                     window_size, events_dates, device='cuda:2', lstm_df_cache=False, use_cache=False):
-    lstm_results = pd.DataFrame()
+def get_lstm_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, n_in,
+                     window_size, categ_data, device='cuda:2', lstm_df_cache=False, use_cache=False):
     lstm_predictions = []
     for model in ['LSTM', 'Event LSTM', 'GAN - Event LSTM', 'Weighted Event LSTM']:
-        res_df, predictions = lstm_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name, peaks_data,
-                        n_in, model, window_size, events_dates, device=device, lstm_df_cache=lstm_df_cache, use_cache=use_cache)
-        lstm_results = lstm_results.append(res_df, ignore_index=True)
+        predictions = lstm_model_results(train, test, train_df, test_df, events_all, start_pred_time, leaf_name,
+                        n_in, model, window_size, categ_data, device=device, lstm_df_cache=lstm_df_cache, use_cache=use_cache)
         lstm_predictions.append(predictions)
     lstm_predictions = pd.concat(lstm_predictions, axis=1)
-    return lstm_results, lstm_predictions
+    return lstm_predictions

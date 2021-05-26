@@ -14,7 +14,7 @@ hparams = {
     'log_path': LOG_DIR,
     'log_every_n_steps': 1,
 
-    'gpus': 0,  # todo: '2',
+    'gpus': '2',
     'batch_size': 32,
 
     'wikipedia_only': True,
@@ -43,7 +43,7 @@ hparams = {
     'lr_dis': 1e-4,
     'weight_decay_dis': 0.001,
 
-    'epochs': 1,  # todo: 100,
+    'epochs': 100,
     'saving_results': True,
     'results_prefix': 'GAN-Embeddings'
 }
