@@ -44,7 +44,7 @@ python3 src/run.py
 In addition, you can edit the `hparams` variable to control the different
 parameters for the GAN-Event, in the file `src/run.py`.
 
-### Forecasting
+### Forecasting Models
 Run the following command and open `experiments.ipynb`.
 Then, chose `venv` as the kernel for the notebook: 
 ```shell script
