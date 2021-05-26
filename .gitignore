@@ -136,16 +136,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-
-
-cache/
-log/
-src/lightning_logs/
-log/events_model/
-.ipynb_checkpoints/
-**/__pycache__
-.darts/
-.idea/
-.DS_Store
-data/gan_embeddings/
