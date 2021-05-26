@@ -16,18 +16,18 @@ This repository provides a reference implementation of GAN-Event and forecasting
 
 This code was tested with `Python 3.8`.
 
-1. Setup a new virtual environment by running
+1. Setup a new virtual environment by running:
 ```shell script
 python3 -m venv venv/
 source venv/bin/activate
 ```
 
-2. Run/
+2. Run:
 ```shell script
 pip3 install -r requirements.txt
 ```
 
-3. Add the virtual environment 
+3. Add the virtual environment:
 ```shell script
 python3 -m ipykernel install --user --name=venv
 ```
