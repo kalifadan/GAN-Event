@@ -1,12 +1,13 @@
 # Leveraging World Events to Predict E-Commerce Consumer Demand under Anomaly
 \
-_Under review for CIKM’21 – November 2021,  Gold Coast, Queensland, Australia._
+_Under review for WSDM'22 - 15th ACM International Conference on Web Search and Data Mining._
 ---
 > **Abstract:** Consumer demand forecasting is of high importance for many e-commerce applications, including supply chain optimization, advertisement placement, and delivery speed optimization. 
-However, reliable time series sales forecasting for e-commerce is difficult, especially during periods with many anomalies, as can often happen during pandemics, abnormal weather, or sports events. Although many time-series algorithms have been applied to the task, prediction during anomalies still remains a challenge. 
-In this work, we hypothesize that leveraging external knowledge found in world events will help overcome the challenge of prediction under anomalies. We mine a large repository of 40 years of world events and their textual representations. We present a novel methodology based on transformers to construct an embedding of a day based on the causal subgraph of the day’s events. 
+However, reliable time series sales forecasting for e-commerce is difficult, especially during periods with many anomalies, as can often happen during pandemics, abnormal weather, or sports events. Although many time series algorithms have been applied to the task, prediction during anomalies still remains a challenge. 
+In this work, we hypothesize that leveraging external knowledge found in world events can help overcome the challenge of prediction under anomalies. We mine a large repository of 40 years of world events and their textual representations. 
+Further, we present a novel methodology based on transformers to construct an embedding of a day based on the relations of the day’s events. 
 Those embeddings are then used to forecast future consumer behavior. 
-We empirically evaluate the methods over a large e-commerce products sales dataset, extracted from one of the world’s largest online marketplaces. We show over numerous categories that our method outperforms state-of-the-art baselines during anomalies. We contribute the code and data to the community for further research.
+We empirically evaluate the methods over a large e-commerce products sales dataset, extracted from eBay, one of the world’s largest online marketplaces. We show over numerous categories that our method outperforms state-of-the-art baselines during anomalies. We contribute the code and data to the community for further research.
 
 ![GitHub Logo](https://user-images.githubusercontent.com/57223242/119711281-04b85e80-be68-11eb-8907-1649b3cc847e.png)
 
@@ -52,15 +53,12 @@ cd src
 jupyter notebook
 ```
 
-
-
 ## License
-
 This project is licensed under the MIT license. 
 Check [LICENSE](LICENSE) for more information.
 
 
-
 ## Data
-The world event dataset is accessible in the "data" folder. 
+- **World-event dataset**: The world event dataset is accessible in the "data" folder. 
+- **E-commerce dataset**: We cannot disclose actual sale values due to business sensitivity. Therefore, we supply a mock time series as alternative. The user can supply a time series of sales and evaluate our models on it.
 
