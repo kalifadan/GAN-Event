@@ -60,5 +60,6 @@ Check [LICENSE](LICENSE) for more information.
 
 ## Data
 - **World-event dataset**: The world event dataset is accessible in the "data" folder. 
-- **E-commerce dataset**: We cannot disclose actual sale values due to business sensitivity. Therefore, we supply a mock time series as alternative. The user can supply a time series of sales and evaluate our models on it.
+- **E-commerce dataset**: As we cannot disclose actual sale values due to business sensitivity, we supply a mock time series as an alternative.
+The dataset can be found in the notebook "experiments" in the "src" folder.
 
