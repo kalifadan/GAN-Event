@@ -1,7 +1,10 @@
 # Leveraging World Events to Predict E-Commerce Consumer Demand under Anomaly
-\
+
+## Dan Kalifa, Uriel Singer, Ido Guy, Guy D. Rosin, and Kira Radinsky. 
+
 _In Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining (WSDM '22), February 21--25, 2022, Tempe, AZ, USA._
----
+
+
 > **Abstract:** Consumer demand forecasting is of high importance for many e-commerce applications, including supply chain optimization, advertisement placement, and delivery speed optimization. 
 However, reliable time series sales forecasting for e-commerce is difficult, especially during periods with many anomalies, as can often happen during pandemics, abnormal weather, or sports events. Although many time series algorithms have been applied to the task, prediction during anomalies still remains a challenge. 
 In this work, we hypothesize that leveraging external knowledge found in world events can help overcome the challenge of prediction under anomalies. We mine a large repository of 40 years of world events and their textual representations. 
